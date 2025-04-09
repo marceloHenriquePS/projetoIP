@@ -1,0 +1,17 @@
+{
+  "Membros": [
+    {
+      "Nome": "MARCELO",
+      "Contatos": [
+        {
+          "nomeContato": "MARCELO",
+          "fone": 111
+        },
+        {
+          "nomeContato": "JULIA",
+          "fone": 222
+        }
+      ]
+    }
+  ]
+}

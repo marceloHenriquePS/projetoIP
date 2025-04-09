@@ -1,261 +1,178 @@
-#---------- Usuários ----------#
-lista_usuarios = []
-num_usuario = 0
+from FuncoesJSON import *
 
-#--------- Cadastro de Usuários --------#
-def cadatrar_usuario():
-    global num_usuario 
+def cadastroMembro():
+    carregarMEMBROS()
 
-    print("\n===== Cadastrar Usuários =====")
-    nome = input("Nome: ")
-    cpf = int(input("CPF: "))
-    contato = input("Contato: ")
+    membro = {'Nome': str(input("Informe seu nome completo: "))}
 
-    num_usuario += 1
+    contatos = []
+    for i in range(1, 3):
 
-    for usuario in lista_usuarios:
-        if usuario["CPF"] == cpf:
-            print("CPF já cadastrado.")
-            return
-
-    usuario = {"Nome":nome, "CPF":cpf, "Contato":contato, "Número":num_usuario}
-    lista_usuarios.append(usuario)
-
-    print(f"Usuário '{nome}' foi adicionado ao sistema.")
-
-#--------- Listar Usuários ----------#
-def listar_usuarios():
-    print("===== Lista de Usuários Cadastrados =====\n")
-    print("Total de Usuários Cadastrados: {}\n".format(len(lista_usuarios)))
-
-    if len(lista_usuarios) == 0:
-        print("Não há usuários cadastrados no sistema!")
-    else:
-        for usuario in lista_usuarios:
-            print("Usuário {}: {}".format(usuario["Número"], usuario["Nome"]))
-
-#---------- Buscar Usuários ---------#
-def buscar_usuario():
-    print("===== Buscando Usuário... =====")
-
-    if len(lista_usuarios) == 0:
-        print("Não há usuários cadastrados no sistema.")
-    
-    else:
-        cpf = int(input("Informe o CPF do Usuário: "))
-
-        for usuario in lista_usuarios:
-
-            if usuario["CPF"] == cpf:
-                print("\nUsuário: {}\nCPF: {}\nEmpréstimos:".format(usuario["Nome"], usuario["CPF"]))
-                return True
-                
-        print("\nEste usuário não está cadastrado.")
-        return False
-    
-#---------- LIVROS -------------#
-lista_livros = []
-num_livros = 0
-
-#-------- CADASTRO DE LIVROS -----------#
-def cadatrar_livros():
-    global num_livros
-
-    print("\n===== Cadastro de Livros =====")
-    nome = input("Nome: ")
-    isbn = int(input("ISBN: "))
-    situacao = True
-
-    num_livros += 1
-
-    for livro in lista_livros:
-        if livro["ISBN"] == isbn:
-            print("Livro já cadastrado.")
-            return
-
-    livro = {"Nome":nome, "ISBN":isbn,  "Situação":situacao, "Número":num_livros}
-    lista_livros.append(livro)
-
-    print(f"O livro '{nome}' foi adicionado ao sistema.")
-
-#--------- Listar Livros ----------#
-def listar_livros():
-    print("===== Lista de Livros Cadastrados =====\n")
-    print("Total de Livros Cadastrados: {}\n".format(len(lista_livros)))
-
-    if len(lista_livros) == 0:
-        print("Não há livros cadastrados no sistema!")
-    else:
-        for livro in lista_livros:
-            print("Livro {}: {}".format(livro["Número"], livro["Nome"]))
-
-#---------- Buscar Livros ---------#
-def buscar_livro():
-    print("===== Buscando Livros... =====")
-
-    if len(lista_livros) == 0:
-        print("Não há livros cadastrados no sistema.")
-    
-    else:
-        isbn = int(input("Informe o ISBN do Livro: "))
-
-        for livros in lista_livros:
-
-            if livros["ISBN"] == isbn:
-                print("Livro: {}\nISBN: {}\nSituação: {}".format(livros["Nome"], livros["ISBN"], livros["Situação"]))
-                return True
-                    
-        print("\nEste livro não está cadastrado.")
-        return False
-    
-#--------- Empréstimo de Livros ---------#
-lista_emprestimos = []
-num_emprestimo = 0
-
-#------------- Realizando Empréstimos -------------#
-def emprestimo_livro():
-    global num_emprestimo
-
-    if len(lista_livros) == 0:
-        print("\nNão a livros cadastrados no sistema.")
-    
-    else:
-        print(("\nInforme o CPF do usuário ao qual o livro será emprestado: "))
-        cpf = int(input("---> "))
-
-        for usuario in lista_usuarios:
-
-            if usuario["CPF"] == cpf:
-                print("\nUsuário {}: {}\nCPF: {}".format(usuario["Número"], usuario["Nome"], usuario["CPF"]))
-
-                print(("\nInforme o ISBN do Livro que será emprestado: "))            
-                isbn = int(input("---> "))
-
-
-                for livro in lista_livros:
-                    if livro["ISBN"] == isbn:
-
-                        if livro["Situação"] == True:
-                            print("\nLivro {}: {}\nISBN: {}".format(livro["Número"], livro["Nome"], livro["ISBN"]))
-
-                            print("\nO Empréstimo foi realizado com sucesso.")
-                            
-                            livro["Situação"] = False
-
-                            num_emprestimo += 1
-
-                            emprestimo = {"Nome Usuário":usuario["Nome"], "CPF":usuario["CPF"], "Número Usuário":usuario["Número"], 
-                                          "Nome Livro":livro["Nome"], "ISBN":livro["ISBN"], "Número Livro":livro["Número"], 
-                                          "Número Empréstimo":num_emprestimo}
-    
-                            lista_emprestimos.append(emprestimo)
-
-                            return True
-
-                        print("Livro não pode ser emprestado no momento")
-                        return False
-       
-                print("ISBN não encontra-se cadastrado no sistema.")
-                return False
+        nomeContato = str(input(f"Nome do contato {i}: "))
+        fone = int(input(f"Telefone {i}: "))
         
-        print("CPF não encontra-se cadastrado no sitema.")
-        return False
+        contato = {'nomeContato':nomeContato, 'fone':fone}
+        contatos.append(contato)
 
-#------------- Listando Empréstimos ---------------#
-def listar_emprestimos():
-    print("===== Lista de Empréstimos Ativos =====\n")
-    print("Total de Empréstimos Ativos: {}\n".format(len(lista_emprestimos)))
+    membro['Contatos'] = contatos
+    
+    dadosMEMBROS['Membros'].append(membro)
 
-    if len(lista_emprestimos) == 0:
-        print("Não há empréstimos realizados no sistema!")
-    else:
-        for emprestimo in lista_emprestimos:
-            print("Empréstimo {}:".format(emprestimo["Número Empréstimo"]))
+    print("\nMembro adicionado com sucesso, Bem vindo ao clube!")
 
-            print("========== EMPRÉSTIMO {} ==========")
-            print("Usuário {}: {}".format(emprestimo["Número Usuário"], emprestimo["Nome Usuário"]))
-            print("CPF: {}".format(emprestimo["CPF"]))
+    gravarDadosMEMBROS()     
 
-            print("========== INFORMAÇÕES DO LIVRO ==========")
-            print("Livro {}: {}".format(emprestimo["Número Livro"], emprestimo["Nome Livro"]))
-            print("ISBN: {}\n".format(emprestimo["ISBN"]))
+def adicionarLivro():
+    carregarLIVROS()
 
-#--------- Devolução de Livros -------------------#
-lista_devolucoes = []
-num_devolucao = 1
+    livro = {'Nome do Livro': str(input("Informe o livro que você está lendo no momento: "))}
 
-#------------ Realizando Devoluções --------------#
-def devolucao_livro():
-    global num_devolucao
+    while True:
+        livro['Código'] = int(input("Informe o código do livro de 0 a 50: "))
+        
+        if livro['Código'] > 50 or livro['Código'] < 0:
+            print("Este código não existe, informe outro.")
+            
+        elif "Livros" in dadosLIVROS:           
+            for i in dadosLIVROS['Livros']:
 
-    lista_devolucoes = []
+                if "Código" in i and i['Código'] == livro['Código']:
+                    print("Código já cadastrado.")
+                    break
+            else:
+                break
 
-    print(("\nInforme o CPF do usuário ao qual o livro será feita a devolução: "))
-    cpf = int(input("---> "))
+    livro['Gênero'] = str(input("Informe o gênero do livro: "))
+    livro['Autor'] = str(input("Informe o autor do livro: "))
 
-    for emprestimo in lista_emprestimos:
+    dadosLIVROS['Livros'].append(livro)
+    
+    print("Livro adicionado com sucesso. Boa Leitura!")
 
-        if emprestimo["CPF"] == cpf:
-            print("\nUsuário {}: {}\nCPF: {}".format(emprestimo["Número Usuário"], emprestimo["Nome Usuário"], emprestimo["CPF"]))
+    gravarDadosLIVROS()
 
-            print(("\nInforme o ISBN do Livro que será emprestado: "))            
-            isbn = int(input("---> "))
-                    
-            if emprestimo["ISBN"] == isbn:
+def deletarLivro():
+    carregarLIVROS()
 
-                    print("\nLivro {}: {}\nISBN: {}".format(emprestimo["Número Livro"], emprestimo["Nome Livro"], emprestimo["ISBN"]))
+    livroPesquisa = int(input("Digite o código do livro que deseja deletar: "))
 
-                    from datetime import date
-                    data = date.today()
-                    
-                    print("===== Data da devolução =====\nData: {}".format(data))
+    if len(dadosLIVROS["Livros"]) > 0:
 
-                    print("\nA devolução foi realizado com sucesso.")
+        if "Livros" in dadosLIVROS:
 
-                    for livro in lista_livros:
-                        livro["Situação"] = True
+            for livro in dadosLIVROS['Livros']:
 
-                    devolucao = {
-                        "Nome Usuário":emprestimo["Nome Usuário"],
-                        "CPF":emprestimo["CPF"],
-                        "Nome Livro":emprestimo["Nome Livro"], 
-                        "ISBN":emprestimo["ISBN"],
-                        "Data":data,
-                        }
+                if "Código" in livro and livro['Código'] == livroPesquisa:
+                    dadosLIVROS["Livros"].remove(livro)
 
-                    lista_devolucoes.append(devolucao)
-
-                    print(lista_devolucoes)
-
-                    with open("Lista de Devoluções.txt", "a", encoding="utf-8") as arquivo:
-                        for devolucao in lista_devolucoes:
-                            arquivo.write("=" * 10) 
-                            arquivo.write("Devolução {}".format(num_devolucao)) 
-                            arquivo.write("=" * 10)
-                            arquivo.write("\n")
-
-                            for valor1, valor2 in devolucao.items():
-                                arquivo.write("{}: {}".format(valor1, valor2))
-                                arquivo.write("\n")
-                            arquivo.write("=" * 32)
-                            arquivo.write("\n")
-
-                    
-                    num_devolucao += 1
-                    lista_emprestimos.remove(emprestimo)
-
+                    print(f"Livro com código {livroPesquisa} removido com sucesso.")
                     return True
-     
-            print("Livro não pode ser devolvido no momento, pois, encontra-se disponível.")
+                
+            print(f"Livro com código {livroPesquisa} não encontrado.")
             return False
-        
-    print("Não há empréstimos realizados neste CPF.")
+    
+    print("Base de dados vazia!")   
     return False
 
-#------------ Listando Devoluções -------------#
-def listar_devolucoes():
-    print("\n===Lista de Devoluções===")
-    with open("Lista de Devoluções.txt", "r", encoding="utf-8") as arquivo:
-        leitura = arquivo.read()
+    
+    gravarDadosLIVROS()
 
-        print(leitura)
+def comentarLivro():
+    carregarLIVROS()
+
+    while True:
+        livroComentario = int(input("Digite o código do livro que deseja comentar: "))
+
+        if len(dadosLIVROS["Livros"]) > 0:
+            if "Livros" in dadosLIVROS:
+            
+                for livro in dadosLIVROS['Livros']:
+
+                    if "Código" in livro and livro['Código'] == livroComentario:
+                        if "Comentário" in livro:
+        
+                            comentario = input("Escreva o comentário: ")
+                            print("Comentário adicionado com sucesso!")
+
+                            livro['Comentário'].append(comentario)                        
+                        
+                        else:
+                            livro["Comentário"] = [input("Escreva um comentário: ")]
+                            print("Comentário adicionado com sucesso!")
+                            break
+
+                else:
+                    print("Código não encontrado.\n")
+
+                break
+                    
+        else:
+            print("Não há livros na base.")
+            break
+    
+    gravarDadosLIVROS()
+
+def pesquisarLivro():
+    carregarLIVROS()
+
+    livroPesq = int(input("Digite o código para pesquisa: "))
+
+    if len(dadosLIVROS["Livros"]) > 0:
+
+        if "Livros" in dadosLIVROS:
+            for livro in dadosLIVROS['Livros']:
+
+                if "Código" in livro:
+
+                    if livro["Código"] == livroPesq:
+
+                        print("=" * 10, "DADOS DO LIVRO", "=" * 10)
+                        print(f"Livro: {livro['Nome do Livro']}")
+                        print(f"Autor: {livro['Autor']}")
+                        print(f"Gênero: {livro['Gênero']} ")
+                        print(f"Código: {livro['Código']}")
+                        print("=" * 36)
+                        print("\n")
+
+                        return True
+        
+            print("Livro não cadastrado!")
+            return False
+        
+    print("Base de dados vazia!")   
+    return False
+
+def listarComentarios():
+    carregarLIVROS()
+
+    cont_comentario = 1
+
+    while True:
+        livroComentar = int(input("Digite o código do livro que deseja ver os comentários: "))
+        
+        if "Livros" in dadosLIVROS:
+            
+            for livro in dadosLIVROS['Livros']:
+
+                    if "Código" in livro and livro['Código'] == livroComentar:
+                            
+                            if len(livro['Comentário']) == 0:
+                                print("Não há comentários registrado para esse livro.")
+                                break
+                            
+                            else:
+                                print("Lista de Comenários:\n")
+                                for comentario in livro["Comentário"]:
+                                    print("Comentário {}: {}".format(cont_comentario, comentario))
+                                    cont_comentario += 1
+                                break
+                            
+            else:
+                print("Código não encontrado, tente novamente.")
+            
+            break
+        
+        else:
+            print("Não há livros na base.")
+    
+    gravarDadosLIVROS()
